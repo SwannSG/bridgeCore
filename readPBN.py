@@ -6,6 +6,14 @@
 
 import re
 import hashlib
+import pymongo
+
+
+# client = pymongo.MongoClient()
+# db = client.pbn
+# db.data.insert_one({'hello':'allo'})
+
+
 
 p1 = re.compile(r'^\[([a-zA-z]*)[ ]+"([a-zA-Z0-9\' .:]+)"')
 
@@ -17,9 +25,8 @@ collection = []
 start = True
 i = 0
 for l in fp:        # l = line
-
-    if l.strip()=='*' or start:
-        # start of new hand
+    if l.strip()=='' or start:
+        # start of new hand, just tabs or spaces or nothing in line
         if not start:
             doc['hash'] = hashlib.sha1(bytes(strToHash, 'utf-8')).hexdigest()
             collection.append(doc)
@@ -48,4 +55,4 @@ for l in fp:        # l = line
             doc['PlaySeq'] = play
             strToHash = strToHash + l.strip()
 fp.close()
-print (collection[0])
+# print (collection[0])
