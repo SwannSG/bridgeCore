@@ -8,8 +8,6 @@ import re
 import hashlib
 
 p1 = re.compile(r'^\[([a-zA-z]*)[ ]+"([a-zA-Z0-9\' .:]+)"')
-s1 = """[Event "Generali Euro Team Champs '97"]"""
-
 
 srcFolder = '/home/swannsg/development/bridge/pbn'
 fname = 'Aulpll23.pbn'
@@ -24,8 +22,8 @@ for l in fp:        # l = line
         # start of new hand
         if not start:
             doc['hash'] = hashlib.sha1(bytes(strToHash, 'utf-8')).hexdigest()
-            collection.append(doc)            
-            i = i + 1 
+            collection.append(doc)
+            i = i + 1
         doc = {}
         auction = []
         play = []
@@ -37,7 +35,7 @@ for l in fp:        # l = line
     r = re.search(p1, l)
     if r is not None:
         key = r.groups()[0]
-        value = r.groups()[1]        
+        value = r.groups()[1]
         doc[key] = value
         strToHash = strToHash + key + value
     else:
@@ -50,16 +48,4 @@ for l in fp:        # l = line
             doc['PlaySeq'] = play
             strToHash = strToHash + l.strip()
 fp.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
+print (collection[0])
