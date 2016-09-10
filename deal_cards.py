@@ -1,6 +1,24 @@
 import random
 from bridge_utils import *
 
+
+# key:      team North HCP in a suit
+# value:    possible team South HCP in same suit
+SUIT_TEAM_POINTS = {0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+ 1: [0, 2, 3, 4, 5, 6, 7, 9],
+ 2: [0, 1, 3, 4, 5, 7, 8],
+ 3: [0, 1, 2, 3, 4, 5, 6, 7],
+ 4: [0, 1, 2, 3, 4, 5, 6],
+ 5: [0, 1, 2, 3, 4, 5],
+ 6: [0, 1, 3, 4],
+ 7: [0, 1, 2, 3],
+ 8: [0, 2],
+ 9: [0, 1],
+ 10: [0]}
+
+
+
+
 class pattern:
     """
         '*' is an "any wildcard"
@@ -305,6 +323,84 @@ def team_points_match(deal, indexes, pattern, integer_HCP):
             return True
     return False
 
+def isPatternValid(p):
+    """
+        check if pattern object is valid
+    """
+
+    def valid_total_distr(t):
+        """
+            total distribution across two hands
+        """
+        for each in t:
+            if each > 13:
+                return False
+        return True
+
+    def valid_own_distr(t):
+        if sum(t) == 13:
+            return True
+        return False
+
+    def valid_own_points(t, v):
+        """
+            t: tuple(clubs_HCP, diamonds_HCP, hearts_HCP, spades_HCP)
+                or
+            v: numeric value for combined HCP
+        """
+        if v <> '*':
+            # single hcp value
+            if v <= 40 and v >= 0:
+                return True
+            return False
+        else:
+            # tuple hcp
+            if t == '*':
+                return True
+            else:
+                for each in t:
+                    if not (each <= 10 and each >= 0):
+                        return False
+                return True
+
+    def valid_team_distr(h_1, h_combined):
+        """
+            h_1: tuple(nclubs, ndiamonds, nhearts, nspades)         hand 1
+            h_2: tuple(nclubs, ndiamonds, nhearts, nspades)         hand 1 + 2
+            Evaluate combined hands: hand_1 + hand_2
+
+            [-x for x in h_1]
+        """
+        h_temp = [-x for x in h_1]
+        h_2 
+        if valid_own_distr(h_1) and valid_own_distr(h_2):
+            print 'next'
+            if valid_total_distr(tuple([sum(x) for x in zip(h_1, h_2)])):
+                return True
+        return False
+
+
+    if not (p.b_own_distr or p.b_own_points or p.b_team_distr or p.b_team_points):  
+        return True
+
+    if (p.b_own_distr and not p.b_own_points and not p.b_team_distr and not p.b_team_points):
+        return valid_own_distr(p.own_distr)
+    
+    if not p.b_own_distr and p.b_own_points and not p.b_team_distr and not p.b_team_points:
+        # own points
+        return valid_own_points(p.own_points, p.own_HCP)
+
+    if p.b_own_distr and p.b_own_points and not p.b_team_distr and not p.b_team_points:
+        # own distribution and own points
+        if valid_own_distr(p.own_distr) and valid_points(p.own_points, p.own_HCP):
+            return True
+
+    if p.b_own_distr and not p.b_own_points and p.b_team_distr and not p.b_team_points:
+        # own distribution and team distribution
+        return valid_team_distr(p.own_distr, p.team_distr)
+
+    return False
+
 
 no_of_deals = 10000000
 #p = pattern(own_points=(7, 3, 4, 6))
@@ -314,7 +410,14 @@ no_of_deals = 10000000
 #p = pattern(team_points=(5,5,5,5))
 #p = pattern(team_distr=(6,6,6,8), team_points=(5,5,5,5))
 #p = pattern(team_distr=(6,6,6,8), own_distr=(2,3,4,4))
-p = pattern(own_HCP=5, team_HCP=15)
+#p = pattern(own_HCP=5, team_HCP=15)
+#p = pattern(own_points=(2,6,7,0), team_points=(4,4,3,3))
+#p = pattern(own_points=(7, 3, 4, 11))
+p = pattern(team_distr=(6,6,6,8), own_distr=(2,3,4,4))
+
+if not isPatternValid(p):
+    print 'Pattern is not valid'
+
 
 i = 1
 while i <= no_of_deals:
