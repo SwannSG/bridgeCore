@@ -23,6 +23,7 @@ var bm = {
     south: [],
     east: [],
     west: [],
+    hcp: {j:1, q:2, k:3, a:4},
     _shuffleArray(arr) {
         // replaces underscore shuffle function
         var i = 0;
@@ -98,9 +99,17 @@ var bm = {
         }
     },
 
-    _labelHandDistr(self) {
-        
-    }
+    _pointsAndDistr(self) {
+        var result;
+        result  = self.north.reduce(function(result, x) {
+            self.hcp[x.charAt(0)] ? result.points = result.points + self.hcp[x.charAt(0)] : null;
+            result.distr[x.charAt(1)] = result.distr[x.charAt(1)] + 1;
+            return result;
+        },{points:0, distr: {s:0, h:0, d:0, c:0}});
+        self.north.points = result.points
+        self.north.distr = result.distr
+        self.north.label = result.distr.s +'-' + result.distr.h +'-' +result.distr.d +'-' +result.distr.c;
+    },
 
 
     _pointsCombo: function _pointsCombo(self, points) {
