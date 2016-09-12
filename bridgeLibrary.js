@@ -1,9 +1,10 @@
-// import _ from 'meteor/meteor';
-// var _ = require("underscore");
-
-// bm name will need to be changed
+// bm name may need to be changed
 // bm is a global variable on the client
-// import _ from 'underscore';
+// deal()                          shuffles pack and deals, also sets vulnerability
+// handSummary(hand)               summarises the HCP and distr
+// rightDeal(dealSelector)         needs work
+
+
 
 
 // export { bm };
@@ -36,13 +37,14 @@ var bm = {
         }
         return array;
     },
-    shuffle: function() {
+    deal: function() {
         var shuffled_pack = this._shuffleArray(this.pack);
         this.north = shuffled_pack.slice(0,13).sort(this._cmp.bind(this));
         this.east = shuffled_pack.slice(13,26).sort(this._cmp.bind(this));
         this.south = shuffled_pack.slice(26,39).sort(this._cmp.bind(this));
         this.west = shuffled_pack.slice(39,52).sort(this._cmp.bind(this));
         this._vulnerability();
+        return this;
     },
     _cmp: function _cmp(a,b) {                   // display order of cards on screen
         var aInt = parseInt(a.slice(2,4));
@@ -61,7 +63,7 @@ var bm = {
     rightDeal: function _rightDeal(dealSelector) {
         // dealSelector
         // {}                                   any deal
-        // {points: x, distr:[nc, nd, nh, ns]}  combined
+        // {points: x, distr:[ns, nh, nd, nc]}  combined
         self = this;
         var dealSelector;
         dealSelector = dealSelector || {};  //parameter may be omitted
@@ -95,6 +97,12 @@ var bm = {
             return self._distrCombo(self, dealSelector.distr);
         }
     },
+
+    _labelHandDistr(self) {
+        
+    }
+
+
     _pointsCombo: function _pointsCombo(self, points) {
         // test for points combination
         // NS
@@ -167,6 +175,7 @@ var bm = {
         self.west.points = self._getPoints(self, self.west);
     },
     _getPoints: function _getPoints(self, hand) {
+        // compute total HCP in a hand
         // x hand array
         return hand.reduce(function(points, x) {
             x = x.charAt(0);
@@ -232,19 +241,19 @@ var bm = {
         return false;
     },
     _comboMatch: function _comboMatch(self, combDistr, selectDistr) {
-        // c
+        // s
         if (combDistr[0]!==selectDistr[0]) {
             return false;
         }
-        // d
+        // h
         if (combDistr[1]!==selectDistr[1]) {
             return false;
         }
-        // h
+        // d
         if (combDistr[2]!==selectDistr[2]) {
             return false;
         }
-        // s
+        // c
         if (combDistr[3]!==selectDistr[3]) {
             return false;
         }
@@ -282,7 +291,7 @@ var bm = {
                 ns++;
             }
         }
-        return [nc, nd, nh, ns];
+        return [ns, nh, nd, nc];
     },
     handSummary: function handSummary(hand) {
         var self = this;
@@ -292,7 +301,8 @@ var bm = {
     _dispDistr: function _dispDistr(self, hand) {
         var distr = self._getDistr(self, hand);
         return (
-            'distr: [' + distr[3] + 's, ' + distr[2] + 'h, ' + distr[0] + 'c, ' + distr[1] + 'd]'
+            // distribution always nS-nH-nD-nC
+            'distr: [' + distr[0] + '-' + distr[1] + '-' + distr[2] + '-' + distr[3] + ']'
         );
     },
 
