@@ -99,18 +99,25 @@ var bm = {
         }
     },
 
-    _pointsAndDistr(self) {
+    pointsAndDistr(self) {
         var result;
-        result  = self.north.reduce(function(result, x) {
+        for (let each of ['north', 'south', 'east', 'west']) {
+            console.log(each);
+            result = this._getPointsDistrLabel(self, self[each]);
+            self[each].points = result.points;
+            self[each].distr = result.distr;
+            self[each].distrLabel = result.distr.s +'-' + result.distr.h +'-' +result.distr.d +'-' +result.distr.c;
+        }
+    },
+
+    _getPointsDistrLabel(self, hand) {
+        // computes hand hcp, distr, and distribution lablel (S-H-D-C)
+        return hand.reduce(function(result, x) {
             self.hcp[x.charAt(0)] ? result.points = result.points + self.hcp[x.charAt(0)] : null;
             result.distr[x.charAt(1)] = result.distr[x.charAt(1)] + 1;
             return result;
         },{points:0, distr: {s:0, h:0, d:0, c:0}});
-        self.north.points = result.points
-        self.north.distr = result.distr
-        self.north.label = result.distr.s +'-' + result.distr.h +'-' +result.distr.d +'-' +result.distr.c;
     },
-
 
     _pointsCombo: function _pointsCombo(self, points) {
         // test for points combination
