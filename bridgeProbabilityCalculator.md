@@ -24,7 +24,7 @@ def C(n, N):
 
 ### Total number of hands that can be dealt
 
-Choose 13 cards from 52. This is the global space for all possible hands.
+Choose 13 cards from 52. This is the global space for all possible hands.  
 
 \#hands = C(13,32)
 
