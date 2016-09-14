@@ -12,4 +12,4 @@ Well we need to "cancel these duplicates out" by dividing by the number of ways 
 
 \#number of ways n items can be arranged = n!
 
-$\alpha$
+$$\alpha$$
