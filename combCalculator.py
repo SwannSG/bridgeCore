@@ -1,13 +1,7 @@
-# Bridge probability calculator
-
 import math
 
 def C(n, N):
-    """
-        Binomial coefficient
-        normaly refered to as "n choose k"
-        I prefer (small) n from (big) N, then n->k and N->n
-    """
+    # unique ways to choose n items from N objects
     return math.factorial(N)/(math.factorial(N-n)*math.factorial(n))
 
 # Single Hand ************************************
@@ -34,7 +28,7 @@ r4 = C(4,4) * C(9,48) /nt
 r5 = C(2,4) * C(11, 48) / nt
 
 # choose a hand with all of one suit
-r6 = (C(13,13)*C(0,39) + C(13,13)*C(0,39) + C(13,13)*C(0,39) + C(13,13)*C(0,39))/nt
+r6 = (C(13,13)*C(0,39) + C(13,13)*C(0,39) + C(13,13)*C(0,39) + C(13,13)*C(0,39))/nt 
 
 # 12 card suit, Ace high
 r7 = 4*C(11,12)*C(1,1)*C(1,36)/nt
@@ -49,3 +43,10 @@ r8 = C(9,20)*C(4,32)/nt
 
 # number of dual hands
 r20 = C(13,39)
+
+
+
+
+
+
+
