@@ -10,6 +10,6 @@ Now if we consider the set {a,b} to be the same as {b,a}, where a and b are item
 
 Well we need to "cancel these duplicates out" by dividing by the number of ways n objects can be arranged.
 
-```tex
+```latex
 \frac{n!}{k!(n-k)!}
 ```
