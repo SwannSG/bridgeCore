@@ -14,7 +14,7 @@ Well we need to "cancel these duplicates out" by dividing by the number of ways 
 
 \#unique ways to choose n items = \#ways to choose n items / \#ways n items can be arranged  
 
-This is implements in a simple Python function, as
+This is implemented in a trivial Python function, as
 
 ```Python
 def C(n, N):
@@ -25,41 +25,49 @@ def C(n, N):
 ### Total number of hands that can be dealt
 
 Choose 13 cards from 52. This is the global space for all possible hands.
+
 \#hands = C(13,32)
 
 ### Number of hands with all top honors
 
 We need 4 aces from 4 aces, 4 kings from 4 kings, 4 queens from 4 queens, and 1 jack from 4 jacks.
+
 \#hands = C(4,4) x C(4,4) x C(4,4) x C(1,4)
 
 ### Choose a hand with 5-3-3-2 generic distribution
 
 We need 5 cards from suit X, 3 cards from Y, 3 card from suit Z, and 2 cards from remaining suit.
+
 \#hands =  C(5,13) x C(3,13) x C(3,13) x C(2,13)
 
 ### choose a hand with no Aces
 
 We need 0 aces from 4 aces, and 13 cards from the remaining 48. C(0,X) is always one, and we include it just to show the logic.
+
 \#hands = C(0,4) x C(13,48)
 
 ### probability that a bridge hand contains the ace of spades
 
 We need 1 ace from 1 ace spades, and 12 cards from remaining 51.
+
 \#hands = C(1,1) x C(12,51)
 
 ### probability hand contains all four aces
 
 We need 4 aces from 4, and 9 cards from remaining 48.
+
 \#hands = C(4,4) x C(9,48)
 
 ### prob hand contains exactly two  aces
 
 We 2 aces from 4, and 11 cards from remaining 48.
+
 \#hands = C(2,4) x C(11, 48)
 
 # choose a hand with all of one suit
 
 We need 13 cards from one suit of 13. But this can occur for each suit. Hence the addition.
+
 \#hands = C(13,13) x C(0,39) + C(13,13) x C(0,39) + C(13,13) x C(0,39) + C(13,13) x C(0,39)
 
 # 12 card suit, Ace high
